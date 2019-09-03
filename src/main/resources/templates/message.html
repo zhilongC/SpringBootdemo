@@ -50,14 +50,14 @@
 		<div class="container-wrap">
 			<div class="container container-message">
 				<div class="contar-wrap" id="contar-wrap">
-					<form class="layui-form" action="">
+					<form class="layui-form" method="post" th:action="@{/message}">
 						<div class="layui-form-item layui-form-text">
-							  <textarea  class="layui-textarea" id="LAY-msg-content" style="resize:none"></textarea>
+							  <textarea  class="layui-textarea" id="LAY-msg-content" name="msgContent" style="resize:none"></textarea>
+						</div>
+						<div class="layui-form-item">
+							<button class="layui-btn layui-btn-normal" lay-filter="formSubmit" lay-submit>提交</button>
 						</div>
 					</form>
-					<div class="item-btn">
-						<button class="layui-btn layui-btn-normal" id="item-btn">提交</button>
-					</div>
 					
 					<div id="LAY-msg-box">
 						<div class="info-box">

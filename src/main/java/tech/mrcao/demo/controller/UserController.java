@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import tech.mrcao.demo.beans.ArticleThObj;
 import tech.mrcao.demo.model.Article;
 import tech.mrcao.demo.service.ArticleService;
+import tech.mrcao.demo.service.MessageService;
 import tech.mrcao.demo.utils.UUIDUtils;
 
 import java.text.SimpleDateFormat;
@@ -21,6 +22,8 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);;
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private MessageService messageService;
     @GetMapping("/")
     public ModelAndView  index(ModelAndView model){
         model.setViewName("index");
@@ -75,5 +78,11 @@ public class UserController {
     public String getData(@RequestParam("json") String json) {
         LOGGER.debug("[@@@@@getData->request@@@@@]json: {}", json);
         return json;
+    }
+
+    @PostMapping(value = "/message", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String messageSubmit(@RequestParam(value = "msgContent") String messageContent){
+        messageService.insertMsgContent("394509bc34354ad99b2909ed0258efd1", messageContent);
+        return "message";
     }
 }
