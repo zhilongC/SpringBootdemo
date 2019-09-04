@@ -79,4 +79,10 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where message_id = #{messageId,jdbcType=VARCHAR}
   </update>
+  <select id="findAllMsg" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from bg_message
+    where 1=1
+  </select>
 </mapper>

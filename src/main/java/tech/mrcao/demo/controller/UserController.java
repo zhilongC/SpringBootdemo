@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.mrcao.demo.beans.ArticleThObj;
 import tech.mrcao.demo.model.Article;
+import tech.mrcao.demo.model.Message;
 import tech.mrcao.demo.service.ArticleService;
 import tech.mrcao.demo.service.MessageService;
 import tech.mrcao.demo.utils.UUIDUtils;
@@ -35,8 +36,9 @@ public class UserController {
             obj.put("content",attr.getSummary());
             obj.put("updateTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(attr.getUpdateTime()));
             obj.put("showPic", "<img src=\""+attr.getPictureContent() + "\" alt=\"\">");
+//            obj.put("showPic", attr.getPictureContent());
             artArray.add(obj);
-        }
+        };
         model.addObject("thEach", artArray);
         return model;
     }
@@ -54,8 +56,20 @@ public class UserController {
     }
 
     @GetMapping("/message.html")
-    public String message(){
-        return "message";
+    public ModelAndView message(ModelAndView model){
+        model.setViewName("message");
+        List<Map<String, Object>> artArray = new ArrayList<Map<String, Object>>();
+        List<Message> arr = messageService.findAllMsg();
+        for(Message attr : arr) {
+            Map<String, Object> obj = new HashMap<String, Object>();
+            obj.put("photoUrl", "images/info-img.png");
+            obj.put("nickName", "guest");
+            obj.put("likeNum", "5万");
+            obj.put("msgContent", attr.getMessageContent());
+            artArray.add(obj);
+        };
+        model.addObject("thEach", artArray);
+        return model;
     }
 
     @GetMapping("/comment.html")
@@ -81,8 +95,21 @@ public class UserController {
     }
 
     @PostMapping(value = "/message", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public String messageSubmit(@RequestParam(value = "msgContent") String messageContent){
+    public ModelAndView messageSubmit(@RequestParam(value = "msgContent") String messageContent, ModelAndView model){
         messageService.insertMsgContent("394509bc34354ad99b2909ed0258efd1", messageContent);
-        return "message";
+
+        model.setViewName("message.html");
+        List<Map<String, Object>> artArray = new ArrayList<Map<String, Object>>();
+        List<Message> arr = messageService.findAllMsg();
+        for(Message attr : arr) {
+            Map<String, Object> obj = new HashMap<String, Object>();
+            obj.put("photoUrl", "images/info-img.png");
+            obj.put("nickName", "guest");
+            obj.put("likeNum", "5万");
+            obj.put("msgContent", attr.getMessageContent());
+            artArray.add(obj);
+        };
+        model.addObject("thEach", artArray);
+        return model;
     }
 }

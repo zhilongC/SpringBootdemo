@@ -8,6 +8,7 @@ import tech.mrcao.demo.utils.UUIDUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -21,5 +22,10 @@ public class MessageServiceImpl implements MessageService {
         msgObj.setMessageId(UUIDUtils.generateUUID32());
         msgObj.setCreateTime(new Date());
         msgMapper.insert(msgObj);
+    }
+
+    @Override
+    public List<Message> findAllMsg() {
+        return msgMapper.findAllMsg();
     }
 }

@@ -58,7 +58,7 @@
 					<h3><a href="details.html"><p th:text="${article.title}"></p> </a></h3>
 					<h5>发布于：<span><b th:text="${article.updateTime}"></b></span></h5>
 					<p th:text="${article.content}"></p>
-<!--					<img src="images/item.png" alt="">-->
+<!--					<img th:src="@{{filePath}(filePath=${article.showPic})}" alt="">-->
 					<span th:utext="${article.showPic}"></span>
 				</div>
 				<div class="comment count">

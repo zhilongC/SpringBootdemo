@@ -2,6 +2,8 @@ package tech.mrcao.demo.mapper;
 
 import tech.mrcao.demo.model.Message;
 
+import java.util.List;
+
 public interface MessageMapper {
     int deleteByPrimaryKey(String messageId);
 
@@ -14,4 +16,6 @@ public interface MessageMapper {
     int updateByPrimaryKeySelective(Message record);
 
     int updateByPrimaryKey(Message record);
+
+    List<Message> findAllMsg();
 }
