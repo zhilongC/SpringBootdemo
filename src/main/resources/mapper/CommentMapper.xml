@@ -90,4 +90,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where comment_id = #{commentId,jdbcType=VARCHAR}
   </update>
+
+  <select id="findAllMsg" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from bg_comment
+    where 1=1
+  </select>
+
 </mapper>

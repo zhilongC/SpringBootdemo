@@ -9,8 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.mrcao.demo.beans.ArticleThObj;
 import tech.mrcao.demo.model.Article;
+import tech.mrcao.demo.model.Comment;
 import tech.mrcao.demo.model.Message;
 import tech.mrcao.demo.service.ArticleService;
+import tech.mrcao.demo.service.CommentService;
 import tech.mrcao.demo.service.MessageService;
 import tech.mrcao.demo.utils.UUIDUtils;
 
@@ -20,11 +22,15 @@ import java.util.*;
 @Controller
 public class UserController {
 
+    private static final String GUESTID = "394509bc34354ad99b2909ed0258efd1";
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);;
     @Autowired
     private ArticleService articleService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private CommentService commentService;
+
     @GetMapping("/")
     public ModelAndView  index(ModelAndView model){
         model.setViewName("index");
@@ -72,14 +78,35 @@ public class UserController {
         return model;
     }
 
-    @GetMapping("/comment.html")
-    public String comment(){
-        return "comment";
-    }
+//    @GetMapping("/comment.html")
+//    public String comment(){
+//        return "comment";
+//    }
 
     @GetMapping("/details.html")
-    public String details(){
-        return "details";
+    public ModelAndView details(ModelAndView model){
+        model.setViewName("details");
+
+        Article article = articleService.findByArticleID("4dfc7937f4794c7793527aa9c23e778b");
+        model.addObject("title", article.getTitle());
+        model.addObject("updateTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getUpdateTime()));
+        model.addObject("content", article.getContent());
+        model.addObject("showPic", "<img src=\""+article.getPictureContent() + "\" alt=\"\">");
+        model.addObject("readTimes", "10000");
+        model.addObject("likeTimes", "999");
+
+        List<Map<String, Object>> artArray = new ArrayList<Map<String, Object>>();
+        List<Comment> arr = commentService.findAllMsg();
+        for(Comment attr : arr) {
+            Map<String, Object> obj = new HashMap<String, Object>();
+            obj.put("photoUrl", "images/info-img.png");
+            obj.put("nickName", "guest");
+            obj.put("likeNum", "5万");
+            obj.put("msgContent", attr.getCommentContent());
+            artArray.add(obj);
+        };
+        model.addObject("thEach", artArray);
+        return model;
     }
 
     @GetMapping("/error")
@@ -96,7 +123,7 @@ public class UserController {
 
     @PostMapping(value = "/message", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ModelAndView messageSubmit(@RequestParam(value = "msgContent") String messageContent, ModelAndView model){
-        messageService.insertMsgContent("394509bc34354ad99b2909ed0258efd1", messageContent);
+        messageService.insertMsgContent(GUESTID, messageContent);
 
         model.setViewName("message.html");
         List<Map<String, Object>> artArray = new ArrayList<Map<String, Object>>();
@@ -110,6 +137,35 @@ public class UserController {
             artArray.add(obj);
         };
         model.addObject("thEach", artArray);
+        return model;
+    }
+
+    @PostMapping(value = "/comment", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ModelAndView commentSubmit(@RequestParam(value = "commentContent") String commentContent, ModelAndView model){
+        commentService.insertMsgContent(GUESTID, "4dfc7937f4794c7793527aa9c23e778b", commentContent);
+
+        model.setViewName("details.html");
+
+        Article article = articleService.findByArticleID("4dfc7937f4794c7793527aa9c23e778b");
+        model.addObject("title", article.getTitle());
+        model.addObject("updateTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(article.getUpdateTime()));
+        model.addObject("content", article.getContent());
+        model.addObject("showPic", "<img src=\""+article.getPictureContent() + "\" alt=\"\">");
+        model.addObject("readTimes", "10000");
+        model.addObject("likeTimes", "999");
+
+        List<Map<String, Object>> artArray = new ArrayList<Map<String, Object>>();
+        List<Comment> arr = commentService.findAllMsg();
+        for(Comment attr : arr) {
+            Map<String, Object> obj = new HashMap<String, Object>();
+            obj.put("photoUrl", "images/info-img.png");
+            obj.put("nickName", "guest");
+            obj.put("likeNum", "5万");
+            obj.put("msgContent", attr.getCommentContent());
+            artArray.add(obj);
+        };
+        model.addObject("thEach", artArray);
+
         return model;
     }
 }

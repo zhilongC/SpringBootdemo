@@ -18,7 +18,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article findByArticleID(String id){
-        return articleMapper.selectByPrimaryKey("222");
+        return articleMapper.selectByPrimaryKey(id);
     }
     public List<Article> findByCreateId(String createId){
         return articleMapper.findByCreateId(createId);
