@@ -11,7 +11,7 @@ layui.define(['element', 'form','laypage','jquery','laytpl'],function(exports){
   laypage.render({
     elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
     ,count: 3 //数据总数，从服务端得到
-    ,theme: '#1e9fff'
+    ,theme: '#393D49'
   });
   
   // end 分頁
