@@ -34,18 +34,18 @@ public class UserController {
     @GetMapping("/")
     public ModelAndView  index(ModelAndView model){
         model.setViewName("index");
-        List<Map<String, Object>> artArray = new ArrayList<Map<String, Object>>();
-        List<Article> arr = articleService.findByCreateId("0e50744a33534d5881a382b86f84082d");
-        for(Article attr : arr) {
-            Map<String, Object> obj = new HashMap<String, Object>();
-            obj.put("title", attr.getTitle());
-            obj.put("content",attr.getSummary());
-            obj.put("updateTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(attr.getUpdateTime()));
-            obj.put("showPic", "<img src=\""+attr.getPictureContent() + "\" alt=\"\">");
-//            obj.put("showPic", attr.getPictureContent());
-            artArray.add(obj);
-        };
-        model.addObject("thEach", artArray);
+//        List<Map<String, Object>> artArray = new ArrayList<Map<String, Object>>();
+//        List<Article> arr = articleService.findByCreateId("0e50744a33534d5881a382b86f84082d");
+//        for(Article attr : arr) {
+//            Map<String, Object> obj = new HashMap<String, Object>();
+//            obj.put("title", attr.getTitle());
+//            obj.put("content",attr.getSummary());
+//            obj.put("updateTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(attr.getUpdateTime()));
+//            obj.put("showPic", "<img src=\""+attr.getPictureContent() + "\" alt=\"\">");
+////            obj.put("showPic", attr.getPictureContent());
+//            artArray.add(obj);
+//        };
+//        model.addObject("thEach", artArray);
         return model;
     }
 
